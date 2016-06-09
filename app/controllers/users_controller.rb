@@ -12,7 +12,8 @@ class UsersController < ApplicationController
   end
 
   def show
-  	@user = User.find(params[:id])
+     @user = User.find(params[:id])
+     @microposts = @user.microposts.paginate(page: params[:page])
   	#debugger
   end
 
@@ -47,14 +48,7 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  #Confirms a logged in user
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "You must be logged in to view this page."
-      redirect_to login_url
-    end
-  end
+
 
   #Confirms correct user
   def correct_user
